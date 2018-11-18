@@ -1,8 +1,3 @@
-# electron-quasar-file-explorer
-A Simple File Explorer using Vue/Quasar/Electron
-
---- A work in progress ---
-
 # Building an Electron File Explorer with Quasar (and Vue)
 
 ![Electron File Exporer made with Quasar](https://github.com/hawkeye64/electron-quasar-file-explorer/blob/master/images/electron-file-explorer-made-with-quasar.gif)
@@ -202,12 +197,58 @@ This utility function **walkFolders** is a Javascript [generator function](https
 
 > Generator functions provide a powerful alternative [to custom iterators]: they allow you to define an iterative algorithm by writing a single function whose execution is not continuous. Generator functions are written using the function* syntax. When called initially, generator functions do not execute any of their code, instead returning a type of iterator called a Generator. When a value is consumed by calling the generator's next method, the Generator function executes until it encounters the yield keyword.
 
-<!-- <script src="https://gist.github.com/hawkeye64/b522aa1edd00f738cfa231d047ec3b13.js"></script> -->
+```
+const path = require('path')
+const fs = require('fs')
 
-{% gist b522aa1edd00f738cfa231d047ec3b13 %}
+/**
+ * Generator function that lists all files in a folder recursively
+ * in a synchronous fashion
+ *
+ * @param {String} folder - folder to start with
+ * @param {Number} recurseLevel - number of times to recurse folders
+ * @returns {IterableIterator<String>}
+ */
+function *walkFolders (folder, recurseLevel = 0) {
+  try {
+    const files = fs.readdirSync(folder)
 
-<!-- ![walkFolders gist](https://gist.github.com/hawkeye64/b522aa1edd00f738cfa231d047ec3b13.js) -->
+    for (const file of files) {
+      try {
+        const pathToFile = path.join(folder, file)
+        const stat = fs.statSync(pathToFile)
+        const isDirectory = stat.isDirectory()
+        if (isDirectory && recurseLevel > 0) {
+          yield * walkFolders(pathToFile, recurseLevel - 1)
+        }
+        else {
+          yield {
+            rootDir: folder,
+            fileName: file,
+            isDir: isDirectory,
+            stat: stat
+          }
+        }
+      }
+      catch (err) {
+        yield {
+          rootDir: folder,
+          fileName: file,
+          error: err
+        }
+      }
+    }
+  }
+  catch (err) {
+    yield {
+      rootDir: folder,
+      error: err
+    }
+  }
+}
 
+export default walkFolders
+```
 
 Now that we have a function that will give us what we want, we can call like this:
 
@@ -298,9 +339,49 @@ I did try a couple of packages, that worked, but then when I went to compile my 
 
 Thus, my **getWindowsDrives** function was created:
 
-<!-- <script src="https://gist.github.com/hawkeye64/66ea8b0f258c7869f4845474870b5005.js"></script> -->
+```
+const exec = require('child_process').exec
+const fs = require('fs')
+const path = require('path')
 
-{% gist 66ea8b0f258c7869f4845474870b5005 %}
+function getWindowsDrives (callback) {
+  if (!callback) {
+    throw new Error('getWindowsDrives called with no callback')
+  }
+  if (process.platform !== 'win32') {
+    throw new Error('getWindowsDrives called but process.plaform !== \'win32\'')
+  }
+  let drives = []
+  exec('wmic LOGICALDISK LIST BRIEF', (error, stdout) => {
+    if (error) {
+      callback(error, drives)
+      return
+    }
+    // get the drives
+    let parts = stdout.split('\n')
+    if (parts.length) {
+      // first part is titles; get rid of it
+      parts.splice(0, 1)
+      for (let index = 0; index < parts.length; ++index) {
+        let drive = parts[index].slice(0, 2)
+        if (drive.length && drive[drive.length - 1] === ':') {
+          try {
+            // if stat fails, it'll throw an exception
+            fs.statSync(drive + path.sep)
+            drives.push(drive)
+          }
+          catch (e) {
+          }
+        }
+      }
+      callback(null, drives)
+    }
+  })
+}
+
+export default getWindowsDrives
+
+```
 
 And happily, it allows for me to build for Linux and Windows with no problems.
 
