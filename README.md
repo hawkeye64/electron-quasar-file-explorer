@@ -5,7 +5,7 @@ A Simple File Explorer using Vue/Quasar/Electron
 
 # Building an Electron File Explorer with Quasar (and Vue)
 
-![Electron File Exporer made with Quasar](https://github.com/hawkeye64/electron-quasar-file-explorer/blob/master/images/electron-file-explorer-made-with-quasar.mp4?raw=true)
+![Electron File Exporer made with Quasar](https://github.com/hawkeye64/electron-quasar-file-explorer/blob/master/images/electron-file-explorer-made-with-quasar.gif)
 
 
 ## Introduction
