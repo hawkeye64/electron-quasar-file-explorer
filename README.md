@@ -201,9 +201,9 @@ This utility function **walkFolders** is a Javascript [generator function](https
 
 <!-- <script src="https://gist.github.com/hawkeye64/b522aa1edd00f738cfa231d047ec3b13.js"></script> -->
 
-<!-- {% gist b522aa1edd00f738cfa231d047ec3b13 %} -->
+{% gist b522aa1edd00f738cfa231d047ec3b13 %}
 
-![walkFolders gist](https://gist.github.com/hawkeye64/b522aa1edd00f738cfa231d047ec3b13.js)
+<!-- ![walkFolders gist](https://gist.github.com/hawkeye64/b522aa1edd00f738cfa231d047ec3b13.js) -->
 
 
 Now that we have a function that will give us what we want, we can call like this:
