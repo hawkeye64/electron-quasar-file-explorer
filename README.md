@@ -5,6 +5,9 @@ A Simple File Explorer using Vue/Quasar/Electron
 
 # Building an Electron File Explorer with Quasar (and Vue)
 
+![Electron File Exporer made with Quasar](https://github.com/hawkeye64/electron-quasar-file-explorer/blob/master/images/electron-file-explorer-made-with-quasar.mp4?raw=true)
+
+
 ## Introduction
 ### What is Electron?
 Electron is a framework that allows you to build cross platform desktop apps with javascript, HTML and CSS. 
@@ -35,7 +38,7 @@ A file explorer is a graphical user interface (GUI) that allows the User to visu
 ### Why a tutorial?
 Why not?
 
-Sarcasm aside, let me say just a few things. I work with Vue ([Vue Homepage](https://www.vuejs.org)) on a day-to-day basis and use Quasar Frameworks. We made this decision collaboratively back in September 2017. It was a gamble to use Vue and even more so for Quasar. Since then, as of this writing, Vue (118k) has more stars on Github than React (116k) or Angular (42.2k) ([Github Search](https://github.com/search?utf8=%E2%9C%93&q=repo%3Avuejs%2Fvue+repo%3Afacebook%2Freact+repo%3Aangular%2Fangular&type=Repositories&ref=advsearch&l=&l=)) and Quasar (7.7k) ([Quasar Github page](https://github.com/quasarframework/quasar)) is growing rapidly in polularity with it's all-in-one solution. So far, we feel our gample has paid off in spades ([In Spades Definition](https://www.idioms.thefreedictionary.com/in+spades)) as we gear up to release 5.0 of our product ([Intelliview Technologies Homepage](https://www.intelliviewtech.com)) after converting from Angular.
+Sarcasm aside, let me say just a few things. I work with Vue ([Vue Homepage](https://www.vuejs.org)) on a day-to-day basis and use Quasar Frameworks. We made this decision collaboratively back in September 2017. It was a gamble to use Vue and even more so for Quasar. Since then, as of this writing, Vue (118k) has more stars on Github than React (116k) or Angular (42.2k) ([Github Search](https://github.com/search?utf8=%E2%9C%93&q=repo%3Avuejs%2Fvue+repo%3Afacebook%2Freact+repo%3Aangular%2Fangular&type=Repositories&ref=advsearch&l=&l=)) and Quasar (7.7k) ([Quasar Github page](https://github.com/quasarframework/quasar)) is growing rapidly in popularity with it's all-in-one solution. So far, we feel our gamble has paid off in spades ([In Spades Definition](https://www.idioms.thefreedictionary.com/in+spades)) as we gear up to release 5.0 of our product ([Intelliview Technologies Homepage](https://www.intelliviewtech.com)) after converting from Angular.
 
 Ok, back to **why a tutorial**? Our product provides an intelligent camera that creates alert videos that Users can export to their computers, as well as archive videos. With that video, we have a custom SVG that runs as an overlay on top of the video so the User can see the analytics. Because the SVG is custom, we needed to write an offline viewer for these exported videos that can also play the associated SVG as an overlay. Thus, we used Electron and Quasar to develop a custom desktop application that fits our needs. So, yes, I am not **that** experienced with Electron, but I did learn things along the way, that, in this tutorial I will share with you.
 
@@ -71,7 +74,7 @@ I want to keep a similar look-and-feel so that the User will already be familiar
 
 Here are the things I'll do:
 
-1. Have a read-only address bar that shows the current path. I'll call this the **breadcrumb** bar. For each part of the path, the User will be able to click on it in order to make back-traveral easy.
+1. Have a read-only address bar that shows the current path. I'll call this the **breadcrumb** bar. For each part of the path, the User will be able to click on it in order to make back-traversal easy.
 
 2. Show **shortcuts** on the left side. This will show links to a number of pre-defined paths. Both Windows and Linux share this concept. Like, the **home**, **documents**, and **downloads** folder. I don't want to hard-code this, so I'll have to research if there is a way of getting them via Electron.
 
@@ -254,7 +257,7 @@ The first function is responsible for getting the data and filtering it for fold
 Initially when I wrote this code, I would just `console.log()` the output. I didn't have a `createNode` function yet.
 
 ## Task #3: QTree
-In my **folderTree** component, I want to use the [Quasar QTree](https://quasar-framework.org/components/tree.html) component. The tree takes an array of objects. Each object contains a **label** (folder or file name), a **nodeKey** (absolute path to the file or folder), **expandabe** (I'll set to true for a folder), **lazy** (if children of this node will be lazy loaded -- on demand), **children** (an empty array where lazy-loaded sub-folders will get loaded, each with their own node), and **data** (my own addition carrying additional meta data for that node).
+In my **folderTree** component, I want to use the [Quasar QTree](https://quasar-framework.org/components/tree.html) component. The tree takes an array of objects. Each object contains a **label** (folder or file name), a **nodeKey** (absolute path to the file or folder), **expandable** (I'll set to true for a folder), **lazy** (if children of this node will be lazy loaded -- on demand), **children** (an empty array where lazy-loaded sub-folders will get loaded, each with their own node), and **data** (my own addition carrying additional meta data for that node).
 ```
     createNode: function (fileInfo) {
       let nodeKey = fileInfo.rootDir
@@ -286,7 +289,7 @@ In my **folderTree** component, I want to use the [Quasar QTree](https://quasar-
       }
     },
 ```
-You may have noticed that I am using **path.sep** which contains the path seperator based on the current operating system. This is very important when making cross-platform software. To get access to this, you will need to `const path = require('path')` in the script area of your code.
+You may have noticed that I am using **path.sep** which contains the path separator based on the current operating system. This is very important when making cross-platform software. To get access to this, you will need to `const path = require('path')` in the script area of your code.
 
 ## Task #4: Get Windows Drives
 When developing this project, I realized that with Linux, all the files and folders are under the root system. Even mounted drives are under root. This is very convenient. However, under Windows you get drives. I needed a way of determining which drives were in use by the operating system.
@@ -345,7 +348,7 @@ This was not something I expected. The way the QTree works is based off of User 
 
 In order to do this, you would have to write some funky code. Basically, starting at the root node level and working your way to the desired child node. So, almost recursively, but you'd have to wait until QTree called it's lazy load function on any nodes that had children that weren't yet loaded.
 
-To do this will take soem creative thinking, but I did come up with a solution right away using a combination of the Vue [nextTick](https://vuejs.org/v2/api/#Vue-nextTick) function and Vue's global event bus messaging. 
+To do this will take some creative thinking, but I did come up with a solution right away using a combination of the Vue [nextTick](https://vuejs.org/v2/api/#Vue-nextTick) function and Vue's global event bus messaging. 
 
 **Note**: Don't be confused by articles for creating a global event bus in Vue. These are old articles. The latest Vue supports this directly.
 
@@ -360,7 +363,7 @@ In my **folderTree** component, I want to access the global event bus to send me
     this.$root.$off('expand-tree', this.expandTree)
   },
 ```
-Whenever you use the global event bus, make sure you turn it off when the component that it's it is unloaded. It can have uninteded consequences if your component is reloaded multiple times.
+Whenever you use the global event bus, make sure you turn it off when the component that it's it is unloaded. It can have unintended consequences if your component is reloaded multiple times.
 
 The HTML for my QTree looks like this:
 ```
@@ -425,9 +428,9 @@ and the method to recursively expand the tree looks like this:
       }
     }
 ```
-You will notice that if you give an HTML component a `ref="name"` you will be able to directly access that component using this.$refs['name'] or `this.$refs.name`. It just so happens that QTree has some functions that are accessible. **getNodeByKey** returns the node with the specified key, **isExpanded** will return **true** if the node is expanded, and **setExpanded** will call the lazy load function and expand the node once the data has been received. I will note right now that **setExpanded** is an "undocumented" function and I had to find it in the code for QTree, but I would be unable to have this sort of functionality without it.
+You will notice that if you give an HTML component a `ref="name"` you will be able to directly access that component using `this.$refs['name']` or `this.$refs.name`. It just so happens that QTree has some functions that are accessible. **getNodeByKey** returns the node with the specified key, **isExpanded** will return **true** if the node is expanded, and **setExpanded** will call the lazy load function and expand the node once the data has been received. I will note right now that **setExpanded** is an "undocumented" function and I had to find by actually looking in the code for QTree, but I would be unable to have this sort of functionality without it.
 
-The trick in the code above is to get each node, working down towards the node I want. If a node is not expanded, then call the **setExpanded** button. If we are at the node we want, then we're done, otherwise emit the **expand-tree** in the **this->$nextTick** function. This allows the lazy load to occur before the next iteration of node traveral occurs.
+The trick in the code above is to get each node, working down towards the node I want. If a node is not expanded, then call the **setExpanded** button. If we are at the node we want, then we're done, otherwise emit the **expand-tree** in the **this->$nextTick** function. This allows the lazy load to occur before the next iteration of node traversal occurs.
 
 I wouldn't say this is good behavior. As programmers, we should not use "undocumented" functions. However, as programmers, we have all written something that was used other than the way intended. When you do something like this (using any 3rd-party code), you should write up an [issue](https://github.com/quasarframework/quasar/issues/2711) (or [two](https://github.com/quasarframework/quasar/issues/2737)) so the author can make adjustments. Better yet, if you have the time, create a PR (Pull Request) with the functionality you need.
 
@@ -501,3 +504,46 @@ router.get('/file/:guid/:name', function (req, res) {
 })
 
 ```
+## Task #7: Watching Files and Folders
+Any time a User has selected a folder and new files appear or some are deleted, I wanted them to show up immediately. There is an excellent package called [Chokidar](https://github.com/paulmillr/chokidar) that can do this for you. This package is used by quality applications like [Visual Studio Code](https://github.com/microsoft/vscode) (my preferred editor).
+
+Each time the selected folder changes, we call this function:
+```
+    folderWatcherHandler: function (newFolder, oldFolder) {
+      if (oldFolder && this.watcher) {
+        this.watcher.close()
+      }
+      if (newFolder) {
+        // let backend know to statically serve files from this folder
+        ipcRenderer.send('folder', newFolder)
+
+        this.watcher = chokidar.watch(newFolder, {
+          depth: 0,
+          ignorePermissionErrors: true
+        })
+        if (this.watcher) {
+          this.watcher.on('ready', () => { // initial scan done
+            // watch for additions
+            this.watcher.on('raw', (event, path, details) => {
+              this.$root.$emit('rescan-current-folder')
+            })
+          })
+          this.watcher.on('error', (error) => { // initial scan done
+            console.error(error)
+          })
+        }
+      }
+    }
+```
+I make sure to remove any "watch" on an existing folder and create a new "watch" on the new folder. Whenever something changes, I emit the message "rescan-current-folder", which is eventually picked up by this function:
+```
+    rescanCurrentFolder: function () {
+      this.clearAllContentItems()
+      this.contents.push(...this.getFolderContents(this.selectedFolder))
+    },
+```
+
+## Overview
+
+This has been an overview of ***Building an Electron File Explorer with Quasar (and Vue)***. It is my hope you have learned some things that you might not have already known and helped you learn a bit about Quasar (to truly appreciate Quasar, download or fork the project).
+
