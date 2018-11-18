@@ -201,7 +201,10 @@ This utility function **walkFolders** is a Javascript [generator function](https
 
 <!-- <script src="https://gist.github.com/hawkeye64/b522aa1edd00f738cfa231d047ec3b13.js"></script> -->
 
-{% gist b522aa1edd00f738cfa231d047ec3b13 %}
+<!-- {% gist b522aa1edd00f738cfa231d047ec3b13 %} -->
+
+![walkFolders gist](https://gist.github.com/hawkeye64/b522aa1edd00f738cfa231d047ec3b13.js)
+
 
 Now that we have a function that will give us what we want, we can call like this:
 
@@ -435,7 +438,7 @@ Remember, above, in **Security Concerns** we did this:
       webSecurity: true
     }
 ```
-At one point, I was using the **file://** protocol to access images on the file system so they could be displayed instead of a generic icon. Well, the **file://** protocol is no longer available in the **renderer** process. The best way now, would be the same way as if you were a web page and a web server.
+At one point, I was using the **file://** protocol to access images on the file system so they could be displayed instead of a generic icon. Well, the **file://** protocol is no longer available in the **renderer** process. The best way now, would be the same way as if you were using a web page and a web server.
 
 In **electron-main.js** I have the following code (at the top):
 ```
