@@ -199,7 +199,9 @@ This utility function **walkFolders** is a Javascript [generator function](https
 
 > Generator functions provide a powerful alternative [to custom iterators]: they allow you to define an iterative algorithm by writing a single function whose execution is not continuous. Generator functions are written using the function* syntax. When called initially, generator functions do not execute any of their code, instead returning a type of iterator called a Generator. When a value is consumed by calling the generator's next method, the Generator function executes until it encounters the yield keyword.
 
-<script src="https://gist.github.com/hawkeye64/b522aa1edd00f738cfa231d047ec3b13.js"></script>
+<!-- <script src="https://gist.github.com/hawkeye64/b522aa1edd00f738cfa231d047ec3b13.js"></script> -->
+
+{% gist b522aa1edd00f738cfa231d047ec3b13 %}
 
 Now that we have a function that will give us what we want, we can call like this:
 
@@ -290,7 +292,9 @@ I did try a couple of packages, that worked, but then when I went to compile my 
 
 Thus, my **getWindowsDrives** function was created:
 
-<script src="https://gist.github.com/hawkeye64/66ea8b0f258c7869f4845474870b5005.js"></script>
+<!-- <script src="https://gist.github.com/hawkeye64/66ea8b0f258c7869f4845474870b5005.js"></script> -->
+
+{% gist 66ea8b0f258c7869f4845474870b5005 %}
 
 And happily, it allows for me to build for Linux and Windows with no problems.
 
