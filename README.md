@@ -112,6 +112,8 @@ This presents an additional challenge as you can no longer use the **file://** p
 
 Quasar makes it really easy to get started. But, first you have to have it installed globally. You can do that by typing `npm install -g quasar-cli`. Once installed globally, you can access it as it's now on your path.
 
+![Quasar Help](https://github.com/hawkeye64/electron-quasar-file-explorer/blob/master/images/quasar-help.png?raw=true)
+
 To begin a project, from the command-line:
 
 `quasar init my-project-name`
