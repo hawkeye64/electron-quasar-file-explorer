@@ -109,7 +109,7 @@ export default {
     }
   },
 
-  mounted: function () {
+  created: function () {
     ipcRenderer.send('message', 'We have liftoff!')
 
     if (process.platform === 'win32') {

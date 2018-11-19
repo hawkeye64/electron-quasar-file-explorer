@@ -44,10 +44,12 @@ export default {
     }
   },
 
+  created: function () {
+    this.$root.$on('expand-tree', this.expandTree)
+  },
+
   mounted: function () {
     this.selected = this.folder
-
-    this.$root.$on('expand-tree', this.expandTree)
   },
 
   beforeDestroy: function () {
