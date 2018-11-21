@@ -195,7 +195,7 @@ Only because this is the style I like to use.
 ## Task #2: Files and Folders
 One of the first things I want to do is get a list of files and folders from the local file system. I wrote a utility function to do this because I wasn't sure if I wanted to do this in Eletron's **main** process or **renderer** process. In the end, I went with the **renderer** process out of convenience.
 
-This utility function **walkFolders** is a Javascript [generator function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Generator_functions).
+This utility function **walkFolders** is a Javascript [Generator function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators#Generator_functions).
 
 > Generator functions provide a powerful alternative [to custom iterators]: they allow you to define an iterative algorithm by writing a single function whose execution is not continuous. Generator functions are written using the function* syntax. When called initially, generator functions do not execute any of their code, instead returning a type of iterator called a Generator. When a value is consumed by calling the generator's next method, the Generator function executes until it encounters the yield keyword.
 
@@ -253,7 +253,7 @@ export default walkFolders
 ```
 
 Now that we have a function that will give us what we want, we can call like this:
-
+```
     getFolders: function (absolutePath) {
       let folders = []
       // check incoming arg
@@ -275,8 +275,9 @@ Now that we have a function that will give us what we want, we can call like thi
       }
       return folders
     },
+```    
 and
-
+```
     getFolderContents: function (folder) {
       let contents = []
       // check incoming arg
@@ -294,7 +295,7 @@ and
       }
       return contents
     },
-
+```
 The first function is responsible for getting the data and filtering it for folders only. The second function gets all content (files and folders). These could have been combined into one function taking a parameter to decide if you wanted all returned or just folders, but depending on the skill-level of the reader, I didn't want to add too much confusion.
 
 Initially when I wrote this code, I would just `console.log()` the output. I didn't have a `createNode` function yet.
