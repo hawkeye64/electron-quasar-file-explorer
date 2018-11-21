@@ -29,7 +29,7 @@ function getWindowsDrives (callback) {
             drives.push(drive)
           }
           catch (e) {
-            console.error(`Cannot stat windows drive: ${drive}`)
+            console.error(`Cannot stat windows drive: ${drive}`, e)
           }
         }
       }
