@@ -200,7 +200,7 @@ export default {
         if (node.children.length) {
           node.children.splice(0, node.children.length)
         }
-        for (const fileInfo of walkFolders(key, false)) {
+        for (const fileInfo of walkFolders(key, 0)) {
           // we only want folders
           if (!fileInfo.isDir) {
             continue
@@ -294,7 +294,7 @@ export default {
         return folders
       }
 
-      for (const fileInfo of walkFolders(absolutePath, false)) {
+      for (const fileInfo of walkFolders(absolutePath, 0)) {
         // all files and folders
         if ('error' in fileInfo) {
           console.error(`Error: ${fileInfo.rootDir} - ${fileInfo.error}`)
@@ -318,7 +318,7 @@ export default {
         return contents
       }
 
-      for (const fileInfo of walkFolders(folder, false)) {
+      for (const fileInfo of walkFolders(folder, 0)) {
         // all files and folders
         if ('error' in fileInfo) {
           console.error(`Error: ${fileInfo.rootDir} - ${fileInfo.error}`)
