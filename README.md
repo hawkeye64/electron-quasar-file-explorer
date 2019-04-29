@@ -2,6 +2,23 @@
 
 ![Electron File Exporer made with Quasar](https://github.com/hawkeye64/electron-quasar-file-explorer/blob/master/images/electron-file-explorer-made-with-quasar.gif)
 
+---
+## TL;DR
+If you just want to get up and running here are the steps:
+
+1. Install Quasar CLI globbaly with NPM
+    ```
+    npm i -g @quasar/cli@latest
+    ```
+2. To build (I recommend `yarn` as `npm` sometimes has issues with local packages):
+    ```
+    yarn dev
+    ```
+    It should build and run.
+
+If you get an issue with `vue-template-compiler` not found, this is because you used `npm` and it can't find it, even though it is injected into the build via `quasar`. Please install `yarn`, delete your `node_modules` folder and try again.
+
+---
 
 ## Introduction
 ### What is Electron?
