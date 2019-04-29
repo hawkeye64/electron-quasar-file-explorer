@@ -163,7 +163,7 @@ export default {
       if (node.data.isDir) {
         return ''
       }
-      return moment.utc(node.data.stat.mtime).format('YYYY-DD-mm h:mm:ss a')
+      return moment.utc(node.data.stat.mtime).local().format('YYYY-DD-MM h:mm:ss a')
     },
 
     selectedStyleObject: function (node) {
