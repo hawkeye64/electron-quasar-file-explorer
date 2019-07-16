@@ -1,6 +1,6 @@
 {
   "name": "file-explorer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An Electron File Explorer created with Quasar",
   "productName": "File Explorer",
   "cordovaId": "org.cordova.quasar.app",
