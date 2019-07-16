@@ -6,11 +6,17 @@
 ## TL;DR
 If you just want to get up and running here are the steps:
 
-1. Install Quasar CLI globbaly with NPM
+1. Install Quasar CLI globaly with NPM
     ```
     npm i -g @quasar/cli@latest
     ```
-2. To build (I recommend `yarn` as `npm` sometimes has issues with local packages):
+
+2. Update node_modules (I recommend `yarn` as `npm` sometimes has issues with local packages):
+    ```
+    yarn install --force
+    ```
+
+3. To build (look in `packages.json` scripts to see more options):
     ```
     yarn dev
     ```
@@ -21,6 +27,7 @@ If you get an issue with `vue-template-compiler` not found, this is because you 
 ---
 
 ## Introduction
+
 ### What is Electron?
 Electron is a framework that allows you to build cross platform desktop apps with javascript, HTML and CSS. 
 > If you can build a website, you can build a desktop app. Electron is a framework for creating native applications with web technologies like Javascript, HTML and CSS. It takes care of the hard parts so you can focus on the core of your application.
