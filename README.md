@@ -1,5 +1,7 @@
 # Building an Electron File Explorer with Quasar (and Vue)
 
+Note: This tutorial was done with Quasar Framework v0.17
+
 ![Electron File Exporer made with Quasar](https://github.com/hawkeye64/electron-quasar-file-explorer/blob/master/images/electron-file-explorer-made-with-quasar.gif)
 
 ---
