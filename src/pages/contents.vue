@@ -1,52 +1,52 @@
 <template>
-  <div v-if="contents && contents.length">
-    <div class="contents-container">
-      <div class="contents-wrapper">
-        <div v-show="listType === 'grid'" class="row justify-left">
-          <div v-for="node in contents" :key="node.nodeKey">
-            <grid-item
-              :node="node"
-              :selectedNode="selectedNode"
-              :viewType="viewType"
-              @click="onClick"
-              @dblClick="onDblClick"
-              class="non-selectable"
-            />
-          </div>
+  <div v-if="contents && contents.length" class="contents-container">
+    <div class="contents-wrapper">
+      <div v-show="listType === 'grid'" class="row justify-left">
+        <div v-for="node in contents" :key="node.nodeKey">
+          <grid-item
+            :node="node"
+            :selectedNode="selectedNode"
+            :viewType="viewType"
+            @click="onClick"
+            @dblClick="onDblClick"
+            class="non-selectable"
+          />
         </div>
-        <div v-show="listType === 'list'" style="min-height: 100%;">
-          <q-table
-            id="content"
-            dense
-            hide-bottom
-            :data="contents"
-            :columns="columns"
-            row-key="label"
-            :pagination.sync="pagination"
-            separator="none"
-            style="min-height: 100%;"
-          >
-            <q-tr :id="props.row.nodeKey" slot="body" slot-scope="props" :props="props" @click.native.stop="rowClick(props.row)" @dblclick.native.stop="dblRowClick(props.row)" :style="selectedStyleObject(props.row)" class="non-selectable cursor-pointer">
-              <q-td key="type" :props="props" :style="'width: ' + imageWidth + 'px;'">
-                <img v-if="props.row.data.isDir" :size="imageWidth + 'px'" :width="imageWidth + 'px'" src="statics/images/folder.png">
-                <grid-item-image
-                  v-else
-                  :node="props.row"
-                  :width="imageWidth"
-                />
-              </q-td>
-              <q-td key="label" :props="props">
-                {{ props.row.label }}
-              </q-td>
-              <q-td key="size" :props="props">
-                {{ getSize(props.row) }}
-              </q-td>
-              <q-td key="modified" :props="props">
-                {{ getModified(props.row) }}
-              </q-td>
-            </q-tr>
-          </q-table>
-        </div>
+      </div>
+      <div v-show="listType === 'list'" id="content-scroll" style="min-height: 100%;">
+        <q-table
+          id="content"
+          dense
+          hide-bottom
+          flat
+          :data="contents"
+          :columns="columns"
+          row-key="label"
+          :pagination.sync="pagination"
+          separator="none"
+          class="no-border-radius"
+          style="min-height: 100%;"
+        >
+          <q-tr :id="props.row.nodeKey" slot="body" slot-scope="props" :props="props" @click.native.stop="rowClick(props.row)" @dblclick.native.stop="dblRowClick(props.row)" :style="selectedStyleObject(props.row)" class="non-selectable cursor-pointer">
+            <q-td key="type" :props="props" :style="'width: ' + imageWidth + 'px;'">
+              <img v-if="props.row.data.isDir" :size="imageWidth + 'px'" :width="imageWidth + 'px'" src="images/folder.png">
+              <grid-item-image
+                v-else
+                :node="props.row"
+                :width="imageWidth"
+              />
+            </q-td>
+            <q-td key="label" :props="props">
+              {{ props.row.label }}
+            </q-td>
+            <q-td key="size" :props="props">
+              {{ getSize(props.row) }}
+            </q-td>
+            <q-td key="modified" :props="props">
+              {{ getModified(props.row) }}
+            </q-td>
+          </q-tr>
+        </q-table>
       </div>
     </div>
   </div>
@@ -61,22 +61,22 @@ export default {
 
   props: {
     contents: {
-      type: Array,
-      required: true
+      type: Array
+      // required: true
     },
     listType: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     },
     viewType: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     }
   },
 
   components: {
-    'grid-item': require('../components/gridItem').default,
-    'grid-item-image': require('../components/gridItemImage').default
+    'grid-item': () => import('../components/gridItem'),
+    'grid-item-image': () => import('../components/gridItemImage')
   },
 
   data () {
@@ -128,45 +128,43 @@ export default {
     }
   },
 
-  watch: {
-  },
-
   methods: {
     // when a node is single-clicked
-    onClick: function (node) {
+    onClick (node) {
       this.selectedNode = node
       this.$emit('click', node)
     },
 
     // when a node is double-clicked
-    onDblClick: function (node) {
+    onDblClick (node) {
       this.selectedNode = node
+      // eslint-disable-next-line vue/custom-event-name-casing
       this.$emit('dblClick', node)
     },
 
-    rowClick: function (node) {
+    rowClick (node) {
       this.onClick(node)
     },
 
-    dblRowClick: function (node) {
+    dblRowClick (node) {
       this.onDblClick(node)
     },
 
-    getSize: function (node) {
+    getSize (node) {
       if (node.data.isDir) {
         return ''
       }
       return prettyBytes(node.data.stat.size)
     },
 
-    getModified: function (node) {
+    getModified (node) {
       if (node.data.isDir) {
         return ''
       }
       return moment.utc(node.data.stat.mtime).local().format('YYYY-DD-MM h:mm:ss a')
     },
 
-    selectedStyleObject: function (node) {
+    selectedStyleObject (node) {
       if (node === this.selectedNode) {
         return {
           backgroundColor: '#C0C0C0'
@@ -179,27 +177,27 @@ export default {
       }
     },
 
-    getIcon: function (node) {
+    getIcon (node) {
       return 'menu'
     }
   }
 }
 </script>
 
-<style>
-.contents-wrapper {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 50px);
-}
-
+<style scoped>
 .contents-container {
   position: relative;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 50px);
   overflow: auto;
+}
+
+.contents-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 50px);
 }
 
 #content .q-table-container {
@@ -207,5 +205,52 @@ export default {
     -webkit-box-shadow: inherit !important;
     box-shadow: inherit !important;
     position: relative;
+    min-height: 100vh;
 }
+
+#content-scroll >>> #content .q-table-container {
+  box-shadow: none;
+}
+
+#content-scroll >>> #content .q-table-middle.scroll {
+  overflow: auto;
+}
+
+#content-scroll >>> #content thead tr th {
+  position: sticky;
+  position: -webkit-sticky;
+  background: lightgrey;
+  top: 0px;
+  z-index: 1
+}
+
+#content-scroll >>> #content .q-table table {
+  display: block;
+  width: 100%;
+  min-width: 100%;
+}
+
+#content-scroll >>> #content .q-table thead,
+#content-scroll >>> #content .q-table tr,
+#content-scroll >>> #content .q-table th,
+#content-scroll >>> #content .q-table td {
+  height: 24px !important;
+}
+
+#content-scroll >>> #content .q-table thead,
+#content-scroll >>> #content .q-table tr {
+  width: 100% !important;
+  display: inline-table !important;
+}
+
+#content-scroll >>> #content .q-table tbody {
+  display: block;
+  position: relative;
+  overflow: auto;
+  width: 100%;
+  min-width: 100%;
+  min-height: 200px;
+  max-height: calc(100vh - 80px);
+}
+
 </style>

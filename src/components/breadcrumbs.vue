@@ -12,7 +12,7 @@ export default {
 
   props: {
     absolutePath: {
-      type: String | null,
+      type: String,
       required: true
     }
 
@@ -24,28 +24,31 @@ export default {
     }
   },
 
-  mounted: function () {
+  mounted () {
     if (this.absolutePath) {
       this.buildToolbarPath(this.absolutePath)
     }
   },
 
   watch: {
-    absolutePath: function () {
+    absolutePath () {
       this.buildToolbarPath(this.absolutePath)
     }
   },
 
   methods: {
-    onFolderSelected: function (node) {
+    onFolderSelected (node) {
       this.$emit('selected', node.nodeKey)
     },
 
-    buildToolbarPath: function (absolutePath) {
+    buildToolbarPath (absolutePath) {
       this.toolbarLinks.splice(0, this.toolbarLinks.length)
-      let toolbarLinks = []
+      if (!absolutePath) {
+        return
+      }
+      const toolbarLinks = []
       let nodeKey = ''
-      let parts = absolutePath.split(path.sep)
+      const parts = absolutePath.split(path.sep)
       if (parts.length > 1 && parts[parts.length - 1].trim() === '') {
         parts.pop()
       }
@@ -76,7 +79,7 @@ export default {
           label += parts[index]
         }
 
-        let object = {
+        const object = {
           nodeKey: nodeKey,
           label: label
         }

@@ -1,39 +1,53 @@
 <template>
-  <q-list
-    no-border
-    link
-    inset-delimiter
+  <q-expansion-item
+    v-model="expanded"
+    icon="bookmarks"
+    label="Shortcuts"
   >
-    <q-list-header>Shortcuts</q-list-header>
-    <q-item @click.native="onHome">
-      <q-item-side icon="home" />
-      <q-item-main label="Home" />
+    <q-separator />
+    <q-item clickable v-ripple @click.native="onHome">
+      <q-item-section avatar>
+        <q-icon name="home" />
+      </q-item-section>
+      <q-item-section>Home</q-item-section>
     </q-item>
-    <q-item @click.native="onDesktop">
-      <q-item-side icon="desktop_windows" />
-      <q-item-main label="Desktop" />
+    <q-item clickable v-ripple @click.native="onDesktop">
+      <q-item-section avatar>
+        <q-icon name="desktop_windows" />
+      </q-item-section>
+      <q-item-section>Desktop</q-item-section>
     </q-item>
-    <q-item @click.native="onDocuments">
-      <q-item-side icon="folder" />
-      <q-item-main label="Documents" />
+    <q-item clickable v-ripple @click.native="onDocuments">
+      <q-item-section avatar>
+        <q-icon name="folder" />
+      </q-item-section>
+      <q-item-section>Documents</q-item-section>
     </q-item>
-    <q-item @click.native="onDownloads">
-      <q-item-side icon="vertical_align_bottom" />
-      <q-item-main label="Downloads" />
+    <q-item clickable v-ripple @click.native="onDownloads">
+      <q-item-section avatar>
+        <q-icon name="vertical_align_bottom" />
+      </q-item-section>
+      <q-item-section>Downloads</q-item-section>
     </q-item>
-    <q-item @click.native="onPictures">
-      <q-item-side icon="image" />
-      <q-item-main label="Pictures" />
+    <q-item clickable v-ripple @click.native="onPictures">
+      <q-item-section avatar>
+        <q-icon name="image" />
+      </q-item-section>
+      <q-item-section>Pictures</q-item-section>
     </q-item>
-    <q-item @click.native="onMusic">
-      <q-item-side icon="music_note" />
-      <q-item-main label="Music" />
+    <q-item clickable v-ripple @click.native="onMusic">
+      <q-item-section avatar>
+        <q-icon name="music_note" />
+      </q-item-section>
+      <q-item-section>Music</q-item-section>
     </q-item>
-    <q-item @click.native="onMovies">
-      <q-item-side icon="local_movies" />
-      <q-item-main label="Movies" />
+    <q-item clickable v-ripple @click.native="onMovies">
+      <q-item-section avatar>
+        <q-icon name="local_movies" />
+      </q-item-section>
+      <q-item-section>Movies</q-item-section>
     </q-item>
-  </q-list>
+  </q-expansion-item>
 </template>
 
 <script>
@@ -41,29 +55,31 @@ export default {
   name: 'Shortcuts',
 
   data () {
-    return {}
+    return {
+      expanded: true
+    }
   },
 
   methods: {
-    onHome: function () {
+    onHome () {
       this.$emit('selected', 'home')
     },
-    onDesktop: function () {
+    onDesktop () {
       this.$emit('selected', 'desktop')
     },
-    onDocuments: function () {
+    onDocuments () {
       this.$emit('selected', 'documents')
     },
-    onDownloads: function () {
+    onDownloads () {
       this.$emit('selected', 'downloads')
     },
-    onPictures: function () {
+    onPictures () {
       this.$emit('selected', 'pictures')
     },
-    onMusic: function () {
+    onMusic () {
       this.$emit('selected', 'music')
     },
-    onMovies: function () {
+    onMovies () {
       this.$emit('selected', 'videos')
     }
   }

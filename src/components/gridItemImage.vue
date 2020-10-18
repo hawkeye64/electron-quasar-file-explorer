@@ -21,19 +21,19 @@ export default {
 
   data () {
     return {
-      basePath: 'statics/images/'
+      basePath: 'images/'
     }
   },
 
   computed: {
-    gridItemImageContainerStyleObject: function () {
+    gridItemImageContainerStyleObject () {
       return {
         height: this.width + 'px',
         width: this.width + 'px'
       }
     },
 
-    gridItemImageStyleObject: function () {
+    gridItemImageStyleObject () {
       return {
         'max-height': this.width + 'px',
         'max-width': this.width + 'px',
@@ -41,7 +41,7 @@ export default {
       }
     },
 
-    getImage: function () {
+    getImage () {
       // is this a folder?
       if (this.node.data.isDir) {
         return this.basePath + 'folder.png'
@@ -75,7 +75,7 @@ export default {
     }
   },
 
-  mounted: function () {
+  mounted () {
     // console.log('GridItemImage:', this.node)
   }
 }

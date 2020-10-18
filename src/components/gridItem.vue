@@ -1,7 +1,9 @@
 <template>
   <div class="griditemcontainer" :style="gridItemContainerStyleObject" @dblclick.prevent="onDblClick" @click="onClick">
     <div class="griditemimage" :style="gridItemImageStyleObject">
+      <img v-if="node.data.isDir" :size="width + 'px'" :width="width + 'px'" src="images/folder.png">
       <grid-item-image
+        v-else
         :node="node"
         :width="width"
       />
@@ -15,21 +17,21 @@ export default {
   name: 'GridItem',
 
   components: {
-    'grid-item-image': require('./gridItemImage').default
+    'grid-item-image': () => import('./gridItemImage')
   },
 
   props: {
     node: {
-      type: Object,
+      // type: Object,
       required: true
     },
     selectedNode: {
-      type: Object | null,
+      // type: Object,
       required: true
     },
     viewType: {
-      type: String,
-      required: true
+      type: String
+      // required: true
     }
   },
 
@@ -43,7 +45,7 @@ export default {
   },
 
   computed: {
-    gridItemContainerStyleObject: function () {
+    gridItemContainerStyleObject () {
       if (this.node === this.selectedNode) {
         // current node is selected
         return {
@@ -59,14 +61,14 @@ export default {
       }
     },
 
-    gridItemImageStyleObject: function () {
+    gridItemImageStyleObject () {
       return {
         width: this.width + 'px',
         height: this.width + 'px'
       }
     },
 
-    gridItemTextStyleObject: function () {
+    gridItemTextStyleObject () {
       return {
         fontSize: this.fontSize + 'px'
       }
@@ -74,7 +76,7 @@ export default {
   },
 
   watch: {
-    viewType: function () {
+    viewType () {
       if (this.viewType === 'nodes' && (this.node === this.selectedNode)) {
         this.$el.scrollIntoView()
       }
@@ -82,7 +84,7 @@ export default {
   },
 
   methods: {
-    onClick: function () {
+    onClick () {
       if (this.timer) {
         return
       }
@@ -96,10 +98,11 @@ export default {
       }, this.delay)
     },
 
-    onDblClick: function () {
+    onDblClick () {
       if (this.timer) {
         clearTimeout(this.timer)
       }
+      // eslint-disable-next-line vue/custom-event-name-casing
       this.$emit('dblClick', this.node)
     }
   }

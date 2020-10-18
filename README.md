@@ -1,8 +1,8 @@
 # Building an Electron File Explorer with Quasar (and Vue)
 
-Note: This tutorial was done with Quasar Framework v0.17
+Note: **This repo has been upgraded to use Quasar Framework v1.14.1 and Electron v10.1.3**. For the previous work done with Quasar Framework v0.17+ and Electron v3+ go [here](https://github.com/hawkeye64/electron-quasar-file-explorer/tree/quasar-v0.17). Also note, that the original text to the [article](https://medium.com/quasar-framework/building-an-electron-file-explorer-with-quasar-and-vue-7bf94f1bbf6) remains mostly intact below (with some _Edit Notes_). There may be things in the article that are no longer the same in the upgraded repo or upgraded packages.
 
-![Electron File Exporer made with Quasar](https://github.com/hawkeye64/electron-quasar-file-explorer/blob/master/images/electron-file-explorer-made-with-quasar.gif)
+![Electron File Exporer made with Quasar](https://github.com/hawkeye64/electron-quasar-file-explorer/blob/master/images/electron-file-explorer-made-with-quasar.gif?raw=true)
 
 ---
 ## TL;DR
@@ -13,7 +13,7 @@ If you just want to get up and running here are the steps:
     npm i -g @quasar/cli@latest
     ```
 
-2. Update node_modules (I recommend `yarn` as `npm` sometimes has issues with local packages):
+2. Update node_modules (I recommend `yarn` as `npm` sometimes has issues with hoisting local packages):
     ```
     yarn install --force
     ```
@@ -32,6 +32,7 @@ If you get an issue with `vue-template-compiler` not found, this is because you 
 
 ### What is Electron?
 Electron is a framework that allows you to build cross platform desktop apps with javascript, HTML and CSS. 
+
 > If you can build a website, you can build a desktop app. Electron is a framework for creating native applications with web technologies like Javascript, HTML and CSS. It takes care of the hard parts so you can focus on the core of your application.
 
 With Electron, you get two processes: the main process and the renderer process. You can think of the main process as your backend code and the renderer process as your front-end code.
@@ -48,10 +49,11 @@ With Quasar, you can build:
 3. PWAs (Progressive Web App)
 4. Mobile Apps (Android, iOS, …) through Apache Cordova
 5. Multi-platform Desktop Apps (using Electron)
+6. BEX (Browser Extensions)
 
 It is basically an all-in-one solution for web developers with a rich supply of components derived from innovative ideas and concepts that take away the pain (also known as [The Quasar Method](https://medium.com/quasar-framework/the-quasar-method-e19daf9abb5f) to Quasarians) of managing a project with eslint, webpack, babel, etc., so you can get on with developing your app (web, desktop or mobile).
 
-[Quasar Framework Homepage](https://www.quasar-framework.org)
+[Quasar Framework Homepage](https://quasar.dev)
 
 ### What is a File Explorer
 A file explorer is a graphical user interface (GUI) that allows the User to visualize and traverse the file system of an operating system.
@@ -60,6 +62,8 @@ A file explorer is a graphical user interface (GUI) that allows the User to visu
 Why not?
 
 Sarcasm aside, let me say just a few things. I work with Vue ([Vue Homepage](https://www.vuejs.org)) on a day-to-day basis and use Quasar Framework. We made this decision collaboratively back in September 2017. It was a gamble to use Vue and even more so for Quasar. Since then, as of this writing, Vue (118k) has more stars on Github than React (116k) or Angular (42.2k) ([Github Search](https://github.com/search?utf8=%E2%9C%93&q=repo%3Avuejs%2Fvue+repo%3Afacebook%2Freact+repo%3Aangular%2Fangular&type=Repositories&ref=advsearch&l=&l=)) and Quasar (7.7k) ([Quasar Github page](https://github.com/quasarframework/quasar)) is growing rapidly in popularity with it's all-in-one solution. So far, we feel our gamble has paid off in spades ([In Spades Definition](https://www.idioms.thefreedictionary.com/in+spades)) as we gear up to release 5.0 of our product ([Intelliview Technologies Homepage](https://www.intelliviewtech.com)) after converting from Angular.
+
+_Edit Note:_ For comparisons, currently for Oct. 2020, Vue now has 174K Stars and React has 158k Stars. Quasar Framework now has 16.5k Stars.
 
 Ok, back to **why a tutorial**? Our product provides an intelligent camera that creates alert videos that Users can export to their computers, as well as archive videos. With that video, we have a custom SVG that runs as an overlay on top of the video so the User can see the analytics. Because the SVG is custom, we needed to write an offline viewer for these exported videos that can also play the associated SVG as an overlay. Thus, we used Electron and Quasar to develop a custom desktop application that fits our needs. So, yes, I am not **that** experienced with Electron, but I did learn things along the way, that, in this tutorial I will share with you.
 
@@ -138,11 +142,15 @@ This presents an additional challenge as you can no longer use the **file://** p
 
 Quasar makes it really easy to get started. But, first you have to have it installed globally. You can do that by typing `npm install -g quasar-cli`. Once installed globally, you can access it as it's now on your path.
 
+_Edit Note_: This has changed to `npm install -g @quasar/cli`
+
 ![Quasar Help](https://github.com/hawkeye64/electron-quasar-file-explorer/blob/master/images/quasar-help.png?raw=true)
 
 To begin a project, from the command-line:
 
 `quasar init my-project-name`
+
+_Edit Note_: This has changed to `quasar create my-project-name`
 
 This will create a new folder, based on your current folder, and start the scaffolding process. But, first, you will be asked several questions about your project:
 
@@ -153,6 +161,8 @@ To start the web application, you can now type `quasar dev` or your can build a 
 At this point, we have not told Quasar to add Electron. So, we type:
 
 `quasar dev -m electron -t mat` 
+
+_Edit Note_: This has changed to `quasar dev -m electron` 
 
 Quasar will detect that Eletron needs to be installed, does that, then continues on with the development build.
 
@@ -189,6 +199,8 @@ $ quasar new
   Options
     --help, -h     Displays this message
 ```
+_Edit Note_: Plugins have changed to `boot` files.
+
 This is what we will be creating:
 
 1. A main Layout: created automatically for you by Quasar when you **init** the project.
@@ -202,14 +214,14 @@ The first thing I do is update a few things in my **scripts** section in **packa
 ```
   "lint-fix": "eslint --ext .js,.vue src --fix",
   "dev": "quasar dev -m electron -t mat",
-  "build-linux": "quasar build -m electron linux -t mat -b builder",
-  "build-win32": "quasar build -m electron win32 -t mat -b builder",
+  "build:linux": "quasar build -m electron linux -b builder",
+  "build:win32": "quasar build -m electron win32 -b builder",
 ```
 The first one with the **lint-fix** command is because I am lazy. When I forget to do something that that **eslint** complains about, I issue `yarn lint-fix` (or `npm run lint-fix`) and if the issue can be fixed, it goes away.
 
 The **dev** command is for concurrent development while running. Changes to you code cause an HMR (Hot Module Reload).
 
-Finally, the last two commands **build-linux** and **build-win32** are to build the production ready applications. **build-linux** should be called on a Linux system and **build-win32** should be called on a Windows system. (Note: For windows we will actually be building a 64-bit application. Electron uses "win32" to denote a Windows system, not it's "arch" type.)
+Finally, the last two commands **build:linux** and **build:win32** are to build the production ready applications. **build:linux** should be called on a Linux system and **build:win32** should be called on a Windows system. (Note: For windows we will actually be building a 64-bit application. Electron uses "win32" to denote a Windows system, not it's "arch" type.)
 
 Finally, I add the following in the generated **eslintrc.js** file:
 
@@ -280,7 +292,7 @@ export default walkFolders
 
 Now that we have a function that will give us what we want, we can call like this:
 ```
-    getFolders: function (absolutePath) {
+    getFolders (absolutePath) {
       let folders = []
       // check incoming arg
       if (!absolutePath || typeof absolutePath !== 'string') {
@@ -304,7 +316,7 @@ Now that we have a function that will give us what we want, we can call like thi
 ```    
 and
 ```
-    getFolderContents: function (folder) {
+    getFolderContents (folder) {
       let contents = []
       // check incoming arg
       if (!folder || typeof folder !== 'string') {
@@ -327,9 +339,9 @@ The first function is responsible for getting the data and filtering it for fold
 Initially when I wrote this code, I would just `console.log()` the output. I didn't have a `createNode` function yet.
 
 ## Task #3: QTree
-In my **folderTree** component, I want to use the [Quasar QTree](https://quasar-framework.org/components/tree.html) component. The tree takes an array of objects. Each object contains a **label** (folder or file name), a **nodeKey** (absolute path to the file or folder), **expandable** (I'll set to true for a folder), **lazy** (if children of this node will be lazy loaded -- on demand), **children** (an empty array where lazy-loaded sub-folders will get loaded, each with their own node), and **data** (my own addition carrying additional meta data for that node).
+In my **folderTree** component, I want to use the [Quasar QTree](https://quasar.dev/vue-components/tree) component. The tree takes an array of objects. Each object contains a **label** (folder or file name), a **nodeKey** (absolute path to the file or folder), **expandable** (I'll set to true for a folder), **lazy** (if children of this node will be lazy loaded -- on demand), **children** (an empty array where lazy-loaded sub-folders will get loaded, each with their own node), and **data** (my own addition carrying additional meta data for that node).
 ```
-    createNode: function (fileInfo) {
+    createNode (fileInfo) {
       let nodeKey = fileInfo.rootDir
       if (nodeKey.charAt(nodeKey.length - 1) !== path.sep) {
         nodeKey += path.sep
@@ -460,20 +472,20 @@ In order to do this, you would have to write some funky code. Basically, startin
 
 To do this will take some creative thinking, but I did come up with a solution right away using a combination of the Vue [nextTick](https://vuejs.org/v2/api/#Vue-nextTick) function and Vue's global event bus messaging. 
 
-**Note**: Don't be confused by articles for creating a global event bus in Vue. These are old articles. The latest Vue supports this directly.
+**Note**: Don't be confused by articles for creating a global event bus in Vue. These are old articles. The latest Quasar Framework supports this directly.
 
 In my **folderTree** component, I want to access the global event bus to send messages to itself. So, when the component has the message available, I want the **expandTree** function to be called.
 
 ```
-  mounted: function () {
+  mounted () {
     this.$root.$on('expand-tree', this.expandTree)
   },
 
-  beforeDestroy: function () {
+  beforeDestroy () {
     this.$root.$off('expand-tree', this.expandTree)
   },
 ```
-Whenever you use the global event bus, make sure you turn it off when the component that it's it is unloaded. It can have unintended consequences if your component is reloaded multiple times.
+Whenever you use the global event bus, make sure you turn it off when the component that it's used for is unloaded. It can have unintended consequences if your component is reloaded multiple times.
 
 The HTML for my QTree looks like this:
 ```
@@ -491,7 +503,7 @@ The HTML for my QTree looks like this:
 and the method to recursively expand the tree looks like this:
 
 ```
-    expandTree: function (absolutePath) {
+    expandTree (absolutePath) {
       // get parts for the path
       let parts = absolutePath.split(path.sep)
       let path2 = ''
@@ -619,7 +631,7 @@ Any time a User has selected a folder and new files appear or some are deleted, 
 
 Each time the selected folder changes, we call this function:
 ```
-    folderWatcherHandler: function (newFolder, oldFolder) {
+    folderWatcherHandler (newFolder, oldFolder) {
       if (oldFolder && this.watcher) {
         this.watcher.close()
       }
@@ -647,7 +659,7 @@ Each time the selected folder changes, we call this function:
 ```
 I make sure to remove any "watch" on an existing folder and create a new "watch" on the new folder. Whenever something changes, I emit the message "rescan-current-folder", which is eventually picked up by this function:
 ```
-    rescanCurrentFolder: function () {
+    rescanCurrentFolder () {
       this.clearAllContentItems()
       this.contents.push(...this.getFolderContents(this.selectedFolder))
     },

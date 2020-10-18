@@ -1,63 +1,68 @@
 {
   "name": "file-explorer",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "An Electron File Explorer created with Quasar",
   "productName": "File Explorer",
-  "cordovaId": "org.cordova.quasar.app",
-  "author": "Jeff Galbraith <jeff.galbraith@xendra.com>",
+  "author": "Jeff Galbraith <jeff@quasar.com>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "lint-fix": "eslint --ext .js,.vue src --fix",
-    "dev": "quasar dev -m electron -t mat",
-    "build": "quasar build -m electron -t mat",
-    "build-linux": "quasar build -m electron linux -t mat -b builder",
-    "build-win32": "quasar build -m electron win32 -t mat -b builder",
-    "build-mac": "quasar build -m electron mac -t mat -b builder",
+    "dev": "quasar dev -m electron",
+    "build": "quasar build -m electron",
+    "build:linux": "quasar build -m electron linux -b builder",
+    "build:win32": "quasar build -m electron win32 -b builder",
+    "build:mac": "quasar build -m electron mac -b builder",
     "electron-toolkit": "electron ./node_modules/electron-toolkit",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "chokidar": "^3.0.2",
+    "@quasar/extras": "^1.0.0",
+    "chokidar": "^3.4.3",
+    "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mime-types": "^2.1.24",
-    "moment": "^2.24.0",
-    "pretty-bytes": "^5.2.0"
+    "mime-types": "^2.1.27",
+    "moment": "^2.29.1",
+    "pretty-bytes": "^5.4.1",
+    "quasar": "^1.14.1"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.2",
+    "@electron/remote": "^1.0.0",
+    "@quasar/app": "^2.1.1",
+    "babel-eslint": "^10.1.0",
     "devtron": "^1.4.0",
-    "electron": "^3.0.0",
-    "electron-builder": "^20.29.0",
-    "electron-debug": "^1.5.0",
-    "electron-devtools-installer": "^2.2.4",
-    "electron-packager": "^12.2.0",
+    "electron": "^10.1.3",
+    "electron-builder": "^22.9.1",
+    "electron-debug": "^3.1.0",
+    "electron-devtools-installer": "^3.1.1",
+    "electron-packager": "^15.1.0",
     "electron-toolkit": "^1.0.24",
-    "eslint": "^4.18.2",
-    "eslint-config-standard": "^11.0.0",
+    "eslint": "^7.11.0",
+    "eslint-config-standard": "^14.1.1",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.0.0",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^3.0.1",
-    "eslint-plugin-vue": "^4.3.0",
-    "quasar-cli": "^0.17.26",
-    "strip-ansi": "=3.0.1",
-    "vue-loader": "^15.7.0"
-  },
-  "engines": {
-    "node": ">= 8.9.0",
-    "npm": ">= 5.6.0",
-    "yarn": ">= 1.6.0"
+    "eslint-plugin-quasar": "^1.0.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^7.1.0"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 10"
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
   ],
-  "peerDependencies": {
-    "vue-template-compiler": "^2.6.10"
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
   }
 }

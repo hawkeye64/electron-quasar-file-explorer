@@ -1,47 +1,41 @@
 <template>
-  <q-layout view="hhh LpR lFf">
-    <q-layout-header>
-      <q-toolbar
-        color="primary"
-        :glossy="$q.theme === 'mat'"
-        :inverted="$q.theme === 'ios'"
-      >
+  <q-layout view="hHh LpR lFf">
+    <q-header elevated>
+      <q-toolbar>
         <q-btn
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          icon="menu"
           aria-label="Menu"
-        >
-          <q-icon name="menu" />
-        </q-btn>
+          @click="leftDrawerOpen = !leftDrawerOpen"
+        />
 
         <breadcrumbs
           :absolutePath="selectedFolder"
           @selected="onSelectedFolder"
         />
 
-        <div class="float-right" style="margin-left: 10px;">
-          <q-btn
-            flat
-            dense
-            round
-            aria-label="toggle between grid and list modes"
-            @click="toggleListType"
-          >
-            <q-icon :name="listType === 'grid' ? 'format_list_bulleted' : 'border_all'" />
-          </q-btn>
-        </div>
+        <q-btn
+          flat
+          dense
+          round
+          :icon="listType === 'grid' ? 'format_list_bulleted' : 'border_all'"
+          aria-label="toggle between grid and list modes"
+          @click="toggleListType"
+        />
 
       </q-toolbar>
-    </q-layout-header>
+    </q-header>
 
-    <q-layout-drawer
+    <q-drawer
       v-model="leftDrawerOpen"
+      side="left"
+      show-if-above
       behavior="desktop"
-      :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
+      bordered
+      content-class="bg-grey-1"
     >
-
       <shortcuts
         @selected="onShortcutSelected"
       />
@@ -51,17 +45,18 @@
         :lazyLoad="onLazyLoad"
         @selected="onSelectedFolder"
       />
-
-    </q-layout-drawer>
+    </q-drawer>
 
     <q-page-container>
+      <!-- <router-view /> -->
+
       <contents
         :contents="contents"
         :listType="listType"
-        :viewType="viewType"
         @click="onClicked"
         @dblClick="onDblClicked"
       />
+
     </q-page-container>
   </q-layout>
 </template>
@@ -69,9 +64,8 @@
 <script>
 // This gives us access to the underlying Electron
 // object from the "main" process
-const remote = require('electron').remote
-const app = remote.app
 const { ipcRenderer } = require('electron')
+const app = require('@electron/remote').app
 
 // identify mime types
 const mime = require('mime-types')
@@ -86,18 +80,17 @@ import walkFolders from '../util/walkFolders'
 import getWindowsDrives from '../util/getWindowsDrives'
 
 export default {
-  name: 'FileExplorerLayout',
-
+  name: 'MainLayout',
   components: {
-    'breadcrumbs': require('../components/breadcrumbs').default,
-    'shortcuts': require('../components/shortcuts').default,
-    'folder-tree': require('../components/folderTree').default,
-    'contents': require('../pages/contents').default
+    Breadcrumbs: () => import('../components/breadcrumbs'),
+    Shortcuts: () => import('../components/shortcuts'),
+    FolderTree: () => import('../components/folderTree'),
+    Contents: () => import('../pages/contents')
   },
 
   data () {
     return {
-      leftDrawerOpen: true, // this.$q.platform.is.desktop,
+      leftDrawerOpen: false,
       toolbarLinks: [], // toolbar pathway (links to each folder in path)
       drive: process.platform === 'win32' ? 'C:' : '',
       drives: [],
@@ -109,7 +102,7 @@ export default {
     }
   },
 
-  created: function () {
+  created () {
     ipcRenderer.send('message', 'We have liftoff!')
 
     if (process.platform === 'win32') {
@@ -120,12 +113,12 @@ export default {
           for (let index = this.drives.length - 1; index >= 0; --index) {
             try {
               const stat = fs.statSync(this.drives[index] + path.sep)
-              let fileInfo = {}
+              const fileInfo = {}
               fileInfo.rootDir = this.drives[index]
               fileInfo.fileName = path.sep
               fileInfo.isDir = stat.isDirectory()
               fileInfo.stat = stat
-              let node = this.createNode(fileInfo)
+              const node = this.createNode(fileInfo)
               this.rootDir.unshift(node)
             }
             catch (error) {
@@ -146,15 +139,12 @@ export default {
     this.$root.$on('rescan-current-folder', this.rescanCurrentFolder)
   },
 
-  beforeDestroy: function () {
+  beforeDestroy () {
     this.$root.$off('rescan-current-folder', this.rescanCurrentFolder)
   },
 
-  computed: {
-  },
-
   watch: {
-    selectedFolder: function (newFolder, oldFolder) {
+    selectedFolder (newFolder, oldFolder) {
       // The User can de-select a folder, in which case
       // value will be null, so use root folder
       if (!newFolder) {
@@ -173,18 +163,18 @@ export default {
   },
 
   methods: {
-    onSelectedFolder: function (absolutePath) {
+    onSelectedFolder (absolutePath) {
       this.setSelectedFolder(absolutePath)
     },
 
-    onShortcutSelected: function (type) {
+    onShortcutSelected (type) {
       // console.log('onShortcutSelected type:', type)
-      let absolutePath = app.getPath(type)
+      const absolutePath = app.getPath(type)
       this.setSelectedFolder(absolutePath)
     },
 
     // called by folderTree component
-    onLazyLoad: function ({ node, key, done, fail }) {
+    onLazyLoad ({ node, key, done, fail }) {
       if (this.loadChildren(node, key)) {
         done()
       }
@@ -195,7 +185,7 @@ export default {
       }
     },
 
-    loadChildren: function (node, key) {
+    loadChildren (node, key) {
       try {
         if (node.children.length) {
           node.children.splice(0, node.children.length)
@@ -219,13 +209,13 @@ export default {
       return false
     },
 
-    onClicked: function (node) {
+    onClicked (node) {
       // on single-clicks we don't do anything here
       // if we wanted to drill-down into folders, we
       // can call this.onDblClicked function.
     },
 
-    onDblClicked: function (node) {
+    onDblClicked (node) {
       // This causes a drill-down if it's a folder
       if (node.data.isDir) {
         this.setSelectedFolder(node.nodeKey)
@@ -250,16 +240,12 @@ export default {
       })
     },
 
-    rescanCurrentFolder: function () {
+    rescanCurrentFolder () {
       this.clearAllContentItems()
       this.contents.push(...this.getFolderContents(this.selectedFolder))
     },
 
-    setFolder: function (folder) {
-      this.selectedFolder = folder
-    },
-
-    toggleListType: function () {
+    toggleListType () {
       if (this.listType === 'grid') {
         this.listType = 'list'
       }
@@ -268,15 +254,15 @@ export default {
       }
     },
 
-    clearAllContentItems: function () {
+    clearAllContentItems () {
       this.contents.splice(0, this.contents.length)
     },
 
-    addContentItem: function (item) {
+    addContentItem (item) {
       this.contents.push(item)
     },
 
-    setSelectedFolder: function (folder) {
+    setSelectedFolder (folder) {
       this.selectedFolder = folder
       // handle windows drive
       if (process.platform === 'win32') {
@@ -286,8 +272,8 @@ export default {
       }
     },
 
-    getFolders: function (absolutePath) {
-      let folders = []
+    getFolders (absolutePath) {
+      const folders = []
 
       // check incoming arg
       if (!absolutePath || typeof absolutePath !== 'string') {
@@ -310,8 +296,8 @@ export default {
       return folders
     },
 
-    getFolderContents: function (folder) {
-      let contents = []
+    getFolderContents (folder) {
+      const contents = []
 
       // check incoming arg
       if (!folder || typeof folder !== 'string') {
@@ -331,7 +317,7 @@ export default {
       return contents
     },
 
-    createNode: function (fileInfo) {
+    createNode (fileInfo) {
       let nodeKey = fileInfo.rootDir
       if (nodeKey.charAt(nodeKey.length - 1) !== path.sep) {
         nodeKey += path.sep
@@ -361,7 +347,7 @@ export default {
       }
     },
 
-    folderWatcherHandler: function (newFolder, oldFolder) {
+    folderWatcherHandler (newFolder, oldFolder) {
       if (oldFolder && this.watcher) {
         this.watcher.close()
       }

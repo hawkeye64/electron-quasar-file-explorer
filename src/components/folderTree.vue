@@ -1,18 +1,24 @@
 <template>
   <div>
-    <q-list-header v-if="isWin">Drives</q-list-header>
-    <q-list-header v-else>File System</q-list-header>
-
-    <q-tree
-      ref="folders"
-      :nodes="rootDir"
-      label-key="label"
-      node-key="nodeKey"
-      accordion
-      default-expand-all
-      :selected.sync="selected"
-      @lazy-load="lazyLoad"
-    />
+    <q-separator />
+    <q-expansion-item
+      v-model="expanded"
+      icon="folder_open"
+      :label="isWin ? 'Drives' : 'File System'"
+    >
+      <q-separator />
+      <q-tree
+        ref="folders"
+        :nodes="rootDir"
+        label-key="label"
+        node-key="nodeKey"
+        accordion
+        default-expand-all
+        :selected.sync="selected"
+        @lazy-load="lazyLoad"
+      />
+    </q-expansion-item>
+    <q-separator />
   </div>
 </template>
 
@@ -39,44 +45,43 @@ export default {
 
   data () {
     return {
+      expanded: true,
       selected: null,
       isWin: process.platform === 'win32'
     }
   },
 
-  created: function () {
+  mounted () {
+    this.selected = this.folder
+
     this.$root.$on('expand-tree', this.expandTree)
   },
 
-  mounted: function () {
-    this.selected = this.folder
-  },
-
-  beforeDestroy: function () {
+  beforeDestroy () {
     this.$root.$off('expand-tree', this.expandTree)
   },
 
   watch: {
-    // rootDir: function () {
+    // rootDir () {
     //   console.log('rootDir', this.rootDir)
     // },
 
     // this comes from the parent
-    folder: function () {
+    folder () {
       this.selected = this.folder
       this.expandTree(this.folder)
     },
 
-    selected: function () {
+    selected () {
       // console.log('folderTree::selected changed:', this.selected)
       this.$emit('selected', this.selected)
     }
   },
 
   methods: {
-    expandTree: function (absolutePath) {
+    expandTree (absolutePath) {
       // get parts for the path
-      let parts = absolutePath.split(path.sep)
+      const parts = absolutePath.split(path.sep)
       let path2 = ''
       let lastNodeKey
 
@@ -98,7 +103,7 @@ export default {
           path2 += parts[index]
         }
         if (index > -1) {
-          if ('folders' in this.$refs) {
+          if (this.$refs.folders) {
             const key = this.$refs.folders.getNodeByKey(path2)
             // if we get key, then this folder has already been loaded
             if (key) {
