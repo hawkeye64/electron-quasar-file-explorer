@@ -84,10 +84,12 @@ export default {
         {
           name: 'type',
           required: true,
-          label: '',
+          label: 'Type',
           field: 'label',
           align: 'center',
-          sortable: false
+          sortable: false,
+          style: 'max-width: 50px;',
+          headerStyle: 'max-width: 50px;'
         },
         {
           name: 'label',
@@ -95,7 +97,9 @@ export default {
           label: 'Name',
           field: 'label',
           align: 'left',
-          sortable: true
+          sortable: true,
+          style: 'width: 100%',
+          headerStyle: 'width: 100%'
         },
         {
           name: 'size',
@@ -104,7 +108,9 @@ export default {
           format: this.getSize,
           align: 'left',
           sortable: true,
-          sort: (a, b) => parseInt(a.stat.size) - parseInt(b.stat.size)
+          sort: (a, b) => parseInt(a.stat.size) - parseInt(b.stat.size),
+          style: 'max-width: 80px; min-width: 80px;',
+          headerStyle: 'max-width: 80px; min-width: 80px;'
         },
         {
           name: 'modified',
@@ -113,7 +119,9 @@ export default {
           format: this.getModified,
           align: 'left',
           sortable: true,
-          sort: (a, b) => parseFloat(a.stat.mtimeMs) - parseFloat(b.stat.mtimeMs)
+          sort: (a, b) => parseFloat(a.stat.mtimeMs) - parseFloat(b.stat.mtimeMs),
+          style: 'max-width: 150px; min-width: 150px;',
+          headerStyle: 'max-width: 150px; min-width: 150px;'
         }
       ],
       pagination: {
