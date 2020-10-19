@@ -26,7 +26,7 @@ if (process.env.PROD) {
 }
 
 // get the icon path as per installed app
-const iconPath = path.join(__dirname, '/../icons/512x512.png')
+const iconPath = path.join(__dirname, '/../icons/linux-512x512.png')
 // create the appIcon
 const appIcon = nativeImage.createFromPath(iconPath)
 // appIcon.setTemplateImage(true)
