@@ -62,15 +62,12 @@ export default {
   props: {
     contents: {
       type: Array
-      // required: true
     },
     listType: {
       type: String
-      // required: true
     },
     viewType: {
       type: String
-      // required: true
     }
   },
 

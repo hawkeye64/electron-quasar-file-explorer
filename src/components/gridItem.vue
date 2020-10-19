@@ -22,16 +22,13 @@ export default {
 
   props: {
     node: {
-      // type: Object,
-      required: true
+      type: Object
     },
     selectedNode: {
-      // type: Object,
-      required: true
+      type: Object
     },
     viewType: {
       type: String
-      // required: true
     }
   },
 
