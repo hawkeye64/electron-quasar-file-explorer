@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@electron/remote": "^1.0.0",
-    "@quasar/app": "^2.1.1",
+    "@quasar/app": "^2.2.1",
     "babel-eslint": "^10.1.0",
     "devtron": "^1.4.0",
     "electron": "^10.1.3",
