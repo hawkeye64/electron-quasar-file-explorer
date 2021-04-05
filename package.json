@@ -25,7 +25,7 @@
     "mime-types": "^2.1.27",
     "moment": "^2.29.1",
     "pretty-bytes": "^5.4.1",
-    "quasar": "^1.14.1"
+    "quasar": "^1.15.10"
   },
   "devDependencies": {
     "@electron/remote": "^1.0.0",
