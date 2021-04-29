@@ -24,7 +24,7 @@
     "express": "^4.17.1",
     "mime-types": "^2.1.27",
     "moment": "^2.29.1",
-    "pretty-bytes": "^5.4.1",
+    "pretty-bytes": "^5.6.0",
     "quasar": "^1.14.1"
   },
   "devDependencies": {
