@@ -26,6 +26,14 @@ If you just want to get up and running here are the steps:
 
 If you get an issue with `vue-template-compiler` not found, this is because you used `npm` and it can't find it, even though it is injected into the build via `quasar`. Please install `yarn`, delete your `node_modules` folder and try again.
 
+If you are having issues, make sure you Node version is not greater than 14.x
+
+```
+Note: As more time distances itself from when this article was originally done, there are likely things that are broken.
+That's the nature of an NPM ecosystem.
+¯\_(ツ)_/¯
+```
+
 ---
 
 ## Introduction
