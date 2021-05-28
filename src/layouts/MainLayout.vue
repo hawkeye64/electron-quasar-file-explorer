@@ -225,6 +225,11 @@ export default {
       }
     },
 
+    onFileSelected (node) {
+      // do something with the selected file
+      console.log('selected:', node)
+    },
+
     checkForDrive: async function (drives, index) {
       return new Promise(function (resolve, reject) {
         try {
