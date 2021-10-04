@@ -22,7 +22,7 @@
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mime-types": "^2.1.27",
+    "mime-types": "^2.1.33",
     "moment": "^2.29.1",
     "pretty-bytes": "^5.4.1",
     "quasar": "^1.14.1"
