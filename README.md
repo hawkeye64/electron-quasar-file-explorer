@@ -1,4 +1,4 @@
-**Updated:** The sources in this article were originally for Quasar Framework v0.17 (then upgraded to Quasar Framework v1.0.0). I have rewritten the File Explorer to use Quasar Framework v2 (Vue 3). You can access the new repo [here](https://github.com/hawkeye64/electron-quasar-file-explorer-v2).
+> **Updated:** The sources in this article were originally for Quasar Framework v0.17 (then upgraded to Quasar Framework v1.0.0). I have rewritten the File Explorer to use Quasar Framework v2 (Vue 3). You can access the new repo [here](https://github.com/hawkeye64/electron-quasar-file-explorer-v2).
 
 # Building an Electron File Explorer with Quasar (and Vue)
 
