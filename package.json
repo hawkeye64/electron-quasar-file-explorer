@@ -23,7 +23,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mime-types": "^2.1.27",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "pretty-bytes": "^5.4.1",
     "quasar": "^1.14.1"
   },
