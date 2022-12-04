@@ -21,7 +21,7 @@
     "chokidar": "^3.4.3",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mime-types": "^2.1.27",
     "moment": "^2.29.1",
     "pretty-bytes": "^5.4.1",
